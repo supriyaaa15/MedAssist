@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - MedAssist</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0F4C5C, #0B3C49);
+            font-family: Arial;
+        }
+
+        .login-card {
+            background: rgba(255,255,255,0.08);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            color: white;
+            width: 300px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #2EC4B6;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #26b1a4;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <h2>MedAssist Login</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MedAssist</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+        }
+
+        .navbar {
+            background-color: #0F4C5C;
+            padding: 15px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background-color: #123F47;
+            color: white;
+            padding-top: 20px;
+            position: fixed;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #1F6F78;
+        }
+
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div>MedAssist</div>
+    <div>
+        Logged in as: {{ request.user.username }}
+        |
+        <a href="{% url 'logout' %}" style="color:white;">Logout</a>
+    </div>
+</div>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
