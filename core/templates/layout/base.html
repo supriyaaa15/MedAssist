@@ -1,55 +1,135 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MedAssist</title>
+    <title>NiroSync AI</title>
     <style>
-        body {
-            margin: 0;
-            font-family: Arial;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        .navbar {
-            background-color: #0F4C5C;
-            padding: 15px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-        }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #EBF4FF, #F5FAFF);
+    min-height: 100vh;
+    color: #0F172A;
+}
 
-        .sidebar {
-            width: 220px;
-            height: 100vh;
-            background-color: #123F47;
-            color: white;
-            padding-top: 20px;
-            position: fixed;
-        }
+.navbar {
+    height: 64px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+}
 
-        .sidebar a {
-            display: block;
-            padding: 12px 20px;
-            color: white;
-            text-decoration: none;
-        }
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 20px;
+    color: #0F172A;
+}
 
-        .sidebar a:hover {
-            background-color: #1F6F78;
-        }
+.navbar-brand-logo {
+    height: 44px;
+    width: auto;
+    display: block;
+}
+.navbar-user {
+    font-size: 14px;
+    color: #334155;
+}
 
-        .content {
-            margin-left: 220px;
-            padding: 20px;
-        }
+.navbar-user a {
+    color: #0EA5E9;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.navbar-user a:hover {
+    text-decoration: underline;
+}
+
+.sidebar {
+    width: 220px;
+    height: calc(100vh - 64px);
+    background-color: #FFFFFF;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    padding-top: 20px;
+    border-right: 1px solid #E2E8F0;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 24px;
+    color: #475569;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar a:hover {
+    background-color: #E0F2FE;
+    color: #0F172A;
+}
+
+.content {
+    margin-left: 220px;
+    margin-top: 64px;
+    padding: 32px 40px;
+}
+
+.card {
+    background: #FFFFFF;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    margin-bottom: 24px;
+    border: 1px solid #E2E8F0;
+}
+
+.button {
+    background: linear-gradient(135deg, #0EA5E9, #22C55E);
+    padding: 10px 18px;
+    border-radius: 999px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(14, 165, 233, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(14, 165, 233, 0.4);
+    opacity: 0.95;
+}
     </style>
 </head>
 <body>
+{% load static %}
 
 <div class="navbar">
-    <div>MedAssist</div>
-    <div>
-        Logged in as: {{ request.user.username }}
-        |
-        <a href="{% url 'logout' %}" style="color:white;">Logout</a>
+    <div class="navbar-brand">
+        <img src="{% static 'images/nirosync-logo.png' %}" alt="NiroSync AI logo" class="navbar-brand-logo">
+        <span>NiroSync AI</span>
+    </div>
+    <div class="navbar-user">
+        Logged in as: <strong>{{ request.user.username }}</strong>
+        &nbsp;|&nbsp;
+        <a href="{% url 'logout' %}">Logout</a>
     </div>
 </div>
 

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NiroSync AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --bg-light: #F5FAFF;
+            --bg-surface: #FFFFFF;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --accent: #0EA5E9;
+            --accent-soft: #E0F2FE;
+            --accent-secondary: #22C55E;
+            --border-subtle: #E2E8F0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #F5FAFF, #EFF6FF);
+            color: var(--text-main);
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 40px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(184, 209, 247, 0.98);
+            border-bottom: 1px solid #D4E0F5;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-mark {
+            height: 60px;
+            width: auto;
+            display: block;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text-main {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .logo-text-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .nav-actions .login-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 18px;
+            border-radius: 999px;
+            border: 1px solid #E3EAF3;
+            background: #FFFFFF;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+        }
+
+        .nav-actions .login-btn:hover {
+            background: #F4F9FF;
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            padding: 72px 7% 56px 7%;
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-heading {
+            font-size: 44px;
+            line-height: 1.1;
+            margin-bottom: 18px;
+        }
+
+        .hero-highlight {
+            background: linear-gradient(135deg, #0EA5E9, #22C55E);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 540px;
+            margin-bottom: 24px;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 26px;
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: #0C4A6E;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0EA5E9, #22C55E);
+            color: #FFFFFF;
+            border-radius: 999px;
+            padding: 12px 26px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            box-shadow: 0 6px 16px rgba(47, 128, 237, 0.2);
+            transition: all 0.25s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(47, 128, 237, 0.25);
+            opacity: 0.97;
+        }
+
+        .btn-secondary {
+            padding: 12px 22px;
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.15s, box-shadow 0.15s;
+        }
+
+        .btn-secondary:hover {
+            background: #FFFFFF;
+            box-shadow: 0 10px 28px rgba(148, 163, 184, 0.35);
+        }
+
+        .hero-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .hero-right {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .hero-panel {
+            width: 100%;
+            max-width: 420px;
+            border-radius: 24px;
+            background: linear-gradient(150deg, #0EA5E9 0%, #22C55E 50%, #F9FAFB 100%);
+            padding: 20px 18px 18px 18px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+            color: #0F172A;
+        }
+
+        .hero-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            font-size: 13px;
+            color: #0F172A;
+        }
+
+        .hero-panel-body {
+            background: rgba(248, 250, 252, 0.95);
+            border-radius: 18px;
+            padding: 14px 16px;
+        }
+
+        .hero-panel-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 12px;
+            border-bottom: 1px dashed #E2E8F0;
+        }
+
+        .hero-panel-row:last-child {
+            border-bottom: none;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: #22C55E;
+            margin-right: 6px;
+            display: inline-block;
+        }
+
+        .section {
+            padding: 56px 7% 72px 7%;
+            background: radial-gradient(circle at top left, #E0F2FE 0, #F5FAFF 40%, #FFFFFF 100%);
+            border-top: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        .section--features {
+            background: #FFFFFF;
+            border-top: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: 0 -1px 0 rgba(148, 163, 184, 0.2) inset;
+        }
+
+        .section--cta {
+            padding: 70px 0;
+            background: #EEF4FB;
+            text-align: center;
+        }
+
+        .cta-card {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .section--cta .section-title {
+            font-size: 26px;
+        }
+
+        .section--cta .section-subtitle {
+            color: var(--text-muted);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            position: relative;
+            border-radius: 20px;
+            padding: 22px 20px 20px;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            background: rgba(248, 250, 252, 0.95);
+            box-shadow:
+                0 18px 45px rgba(15, 23, 42, 0.08),
+                0 0 0 1px rgba(148, 163, 184, 0.12);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            text-align: left;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            background: none;
+            pointer-events: none;
+        }
+
+        .reveal-on-scroll {
+            transform: translateY(28px) scale(0.98);
+            opacity: 0;
+            transition:
+                transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+                box-shadow 0.25s ease,
+                border-color 0.25s ease,
+                background 0.25s ease,
+                opacity 0.5s ease;
+            will-change: transform, opacity;
+        }
+
+        .reveal-on-scroll.is-visible {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow:
+                0 22px 60px rgba(15, 23, 42, 0.14),
+                0 0 0 1px rgba(59, 130, 246, 0.25);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 20%, #FFFFFF, rgba(191, 219, 254, 0.2)),
+                        linear-gradient(135deg, #0EA5E9, #6366F1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 14px;
+            color: #FFFFFF;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .feature-title {
+            font-size: 17px;
+            font-weight: 650;
+        }
+
+        .feature-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 26px;
+            margin-top: 10px;
+        }
+
+        .workflow-column-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .workflow-list {
+            list-style: none;
+            padding-left: 0;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .workflow-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .workflow-list li::before {
+            content: "●";
+            font-size: 7px;
+            color: var(--accent);
+            margin-top: 4px;
+        }
+
+        .footer {
+            padding: 18px 7% 26px;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: minmax(0, 1fr);
+                padding-top: 48px;
+            }
+
+            .hero-right {
+                justify-content: center;
+            }
+
+            .hero-heading {
+                font-size: 34px;
+            }
+
+            .feature-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .navbar {
+                padding: 0 16px;
+            }
+
+            .hero {
+                padding: 40px 16px 32px;
+            }
+
+            .section {
+                padding: 32px 16px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+{% load static %}
+    <div class="page">
+        <header class="navbar">
+            <div class="nav-left">
+                <img src="{% static 'images/nirosync-logo.png' %}" alt="NiroSync AI logo" class="logo-mark">
+                <div class="logo-text">
+                    <span class="logo-text-main">NiroSync AI</span>
+                    <span class="logo-text-sub">Health in Sync.</span>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <a href="/login/" class="login-btn">Login</a>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="hero-left">
+                    <p class="badge">24/7 AI-powered medical voice assistance</p>
+                    <h1 class="hero-heading">
+                        Transform healthcare with
+                        <span class="hero-highlight">AI Medical Voice Assistants</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        NiroSync AI helps patients explain symptoms in their own words, triages cases safely,
+                        books appointments, and keeps clinicians in sync with every conversation.
+                    </p>
+                    <div class="hero-badges">
+                        <span class="badge">Multilingual conversations</span>
+                        <span class="badge">Symptom triage & routing</span>
+                        <span class="badge">Appointment booking</span>
+                    </div>
+                    <div class="hero-actions">
+                        <a href="/login/" class="btn-primary">Get Started</a>
+                        <a href="#features" class="btn-secondary">
+                            Explore features
+                        </a>
+                    </div>
+                    <p class="hero-meta">
+                        No clinical decisions are made without a human in the loop.
+                    </p>
+                </div>
+
+                <div class="hero-right">
+                    <div class="hero-panel">
+                        <div class="hero-panel-header">
+                            <span>Live voice triage</span>
+                            <span>Guest · 01:42 min</span>
+                        </div>
+                        <div class="hero-panel-body">
+                            <div class="hero-panel-row">
+                                <span><span class="dot"></span>Patient</span>
+                                <span>"I’ve had a sharp chest pain for the last 10 minutes."</span>
+                            </div>
+                            <div class="hero-panel-row">
+                                <span><span class="dot" style="background:#0EA5E9;"></span>NiroSync AI</span>
+                                <span>"I’m going to ask a few quick questions to assess urgency."</span>
+                            </div>
+                            <div class="hero-panel-row">
+                                <span><span class="dot" style="background:#A855F7;"></span>Outcome</span>
+                                <span>Flagged as high priority · routed to emergency line.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="features" class="section section--features">
+                <div class="section-header">
+                    <h2 class="section-title">Designed for modern, patient‑first care</h2>
+                    <p class="section-subtitle">
+                        NiroSync AI supports patients, doctors, and front‑desk teams with safe voice‑first
+                        automation that mirrors your real‑world workflow.
+                    </p>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card reveal-on-scroll">
+                        <div class="feature-header">
+                            <div class="feature-icon">🌍</div>
+                            <div class="feature-title">Multilingual AI conversations</div>
+                        </div>
+                        <p class="feature-text">
+                            Speak naturally in Hindi, English, or a mix of both. NiroSync AI understands accents,
+                            code‑switching, and colloquial descriptions of symptoms.
+                        </p>
+                    </div>
+
+                    <div class="feature-card reveal-on-scroll">
+                        <div class="feature-header">
+                            <div class="feature-icon">👤</div>
+                            <div class="feature-title">Patient & doctor journeys</div>
+                        </div>
+                        <p class="feature-text">
+                            Patients log in to describe symptoms over voice or text, while doctors see a clean
+                            dashboard with appointments, patient details, and symptom summaries.
+                        </p>
+                    </div>
+
+                    <div class="feature-card reveal-on-scroll">
+                        <div class="feature-header">
+                            <div class="feature-icon">🧠</div>
+                            <div class="feature-title">AI voice assistant &amp; triage</div>
+                        </div>
+                        <p class="feature-text">
+                            NiroSync AI listens to the patient, captures key symptoms, runs sentiment and urgency
+                            analysis, and suggests the right doctor or specialist to consult.
+                        </p>
+                    </div>
+
+                    <div class="feature-card reveal-on-scroll">
+                        <div class="feature-header">
+                            <div class="feature-icon">📅</div>
+                            <div class="feature-title">Appointment booking workflow</div>
+                        </div>
+                        <p class="feature-text">
+                            Once the specialist is selected, the assistant can optionally book or reschedule
+                            appointments, coordinating time, date, and preferred mode of consultation.
+                        </p>
+                    </div>
+
+                    <div class="feature-card reveal-on-scroll">
+                        <div class="feature-header">
+                            <div class="feature-icon">📝</div>
+                            <div class="feature-title">Summaries sent to doctors</div>
+                        </div>
+                        <p class="feature-text">
+                            During and after the chat, NiroSync AI compiles a concise summary of the
+                            conversation, symptoms, and sentiment and sends it to the doctor’s dashboard or email.
+                        </p>
+                    </div>
+
+                    <div class="feature-card reveal-on-scroll">
+                        <div class="feature-header">
+                            <div class="feature-icon">💬</div>
+                            <div class="feature-title">Smart features during consultation</div>
+                        </div>
+                        <div class="feature-text">
+                            Sentiment &amp; urgency detection, auto‑generated visit summaries,
+                            and follow‑up care suggestions that keep patients supported beyond the call.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" style="padding-top: 32px;">
+                <div class="section-header">
+                    <h2 class="section-title">Why it matters for hospitals</h2>
+                    <p class="section-subtitle">
+                        Beyond a smoother experience, NiroSync AI is designed to support measurable improvements
+                        in how care is delivered every day.
+                    </p>
+                </div>
+
+                <div class="feature-grid" style="grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px;">
+                    <div class="feature-card reveal-on-scroll">
+                        <div class="feature-header">
+                            <div class="feature-icon">⏱</div>
+                            <div class="feature-title">Reduced intake time</div>
+                        </div>
+                        <p class="feature-text">
+                            Capture patient context before the visit so clinicians spend less time on repetitive
+                            questioning and more time on decision‑making.
+                        </p>
+                    </div>
+
+                    <div class="feature-card reveal-on-scroll">
+                        <div class="feature-header">
+                            <div class="feature-icon">📋</div>
+                            <div class="feature-title">Structured symptom notes</div>
+                        </div>
+                        <p class="feature-text">
+                            Turn free‑form patient speech into consistent, structured documentation that is easier
+                            to search, audit, and hand off between teams.
+                        </p>
+                    </div>
+
+                    <div class="feature-card reveal-on-scroll">
+                        <div class="feature-header">
+                            <div class="feature-icon">🚑</div>
+                            <div class="feature-title">Better triage prioritization</div>
+                        </div>
+                        <p class="feature-text">
+                            Surface high‑risk cases sooner with sentiment and urgency cues, helping staff
+                            prioritize callbacks, escalations, and emergency routing.
+                        </p>
+                    </div>
+
+                    <div class="feature-card reveal-on-scroll">
+                        <div class="feature-header">
+                            <div class="feature-icon">🩺</div>
+                            <div class="feature-title">Lower admin burden</div>
+                        </div>
+                        <p class="feature-text">
+                            Offload repetitive intake, note‑taking, and follow‑up scripting so clinicians and
+                            coordinators can focus on direct patient care.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section section--cta">
+                <div class="cta-card reveal-on-scroll">
+                    <h2 class="section-title">Ready to bring AI‑powered voice triage to your clinic?</h2>
+                    <p class="section-subtitle" style="margin-top: 8px; margin-bottom: 22px;">
+                        Start with a simple pilot: let NiroSync AI handle intake conversations while your team
+                        stays firmly in control of every clinical decision.
+                    </p>
+                    <a href="/login/" class="btn-primary">Get Started</a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            NiroSync AI · Health in Sync. · Voice‑first medical assistance for patients and care teams.
+        </footer>
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const revealItems = Array.from(document.querySelectorAll('.reveal-on-scroll'));
+        const navbar = document.querySelector('.navbar');
+
+        if (!('IntersectionObserver' in window) || !revealItems.length) {
+            revealItems.forEach(el => el.classList.add('is-visible'));
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = revealItems.indexOf(entry.target);
+                    const baseDelayMs = 60;
+                    const maxDelayMs = 260;
+                    const delay = Math.min(index * baseDelayMs, maxDelayMs);
+                    entry.target.style.transitionDelay = (delay / 1000) + 's';
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.18
+        });
+
+        revealItems.forEach(el => observer.observe(el));
+
+        if (navbar) {
+            const handleScroll = () => {
+                navbar.classList.toggle('scrolled', window.scrollY > 10);
+            };
+
+            handleScroll();
+            window.addEventListener('scroll', handleScroll, { passive: true });
+        }
+    });
+</script>
+</body>
+</html>
